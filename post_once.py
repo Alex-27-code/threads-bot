@@ -72,6 +72,10 @@ def post_to_threads(text: str) -> str:
 if __name__ == "__main__":
     print("Generating post...")
     text = generate_post()
-    print(f"Post: {text[:80]}...")
-    thread_id = post_to_threads(text)
-    print(f"Published! Thread ID: {thread_id}")
+    print(f"Post text ({len(text)} chars): {text}")
+    try:
+        thread_id = post_to_threads(text)
+        print(f"Published! Thread ID: {thread_id}")
+    except Exception as e:
+        print(f"FAILED: {e}")
+        raise
