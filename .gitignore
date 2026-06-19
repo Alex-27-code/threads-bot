@@ -1,0 +1,5 @@
+.env
+.env.txt
+posts.db
+__pycache__/
+*.pyc
