@@ -34,22 +34,36 @@ def generate_post() -> str:
     )
     return response.choices[0].message.content.strip()
 
+def clean_text(text: str) -> str:
+    text = text.replace('’', "'").replace('‘', "'")
+    text = text.replace('“', '"').replace('”', '"')
+    text = text.replace('—', '-').replace('–', '-')
+    text = text.replace('…', '...')
+    if len(text) > 480:
+        text = text[:477] + "..."
+    return text
+
 def post_to_threads(text: str) -> str:
     user_id = os.environ["THREADS_USER_ID"]
     token = os.environ["THREADS_ACCESS_TOKEN"]
     base = "https://graph.threads.net/v1.0"
+    text = clean_text(text)
 
     r = requests.post(
         f"{base}/{user_id}/threads",
-        data={"media_type": "TEXT", "text": text, "access_token": token}
+        params={"media_type": "TEXT", "text": text, "access_token": token}
     )
+    if not r.ok:
+        print(f"Error response: {r.text}")
     r.raise_for_status()
     container_id = r.json()["id"]
 
     r2 = requests.post(
         f"{base}/{user_id}/threads_publish",
-        data={"creation_id": container_id, "access_token": token}
+        params={"creation_id": container_id, "access_token": token}
     )
+    if not r2.ok:
+        print(f"Publish error: {r2.text}")
     r2.raise_for_status()
     return r2.json()["id"]
 
