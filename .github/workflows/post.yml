@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: '0 */2 * * *'  # every 2 hours = 12 posts/day
   workflow_dispatch:         # manual run button
+  push:
+    branches: [main]         # run on every push (fresh code)
 
 jobs:
   post:
