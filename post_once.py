@@ -49,21 +49,23 @@ def post_to_threads(text: str) -> str:
     base = "https://graph.threads.net/v1.0"
     text = clean_text(text)
 
+    headers = {"Authorization": f"Bearer {token}"}
+
     r = requests.post(
         f"{base}/{user_id}/threads",
-        params={"media_type": "TEXT", "text": text, "access_token": token}
+        params={"media_type": "TEXT", "text": text},
+        headers=headers
     )
-    if not r.ok:
-        print(f"Error response: {r.text}")
+    print(f"Create status: {r.status_code} | {r.text[:300]}")
     r.raise_for_status()
     container_id = r.json()["id"]
 
     r2 = requests.post(
         f"{base}/{user_id}/threads_publish",
-        params={"creation_id": container_id, "access_token": token}
+        params={"creation_id": container_id},
+        headers=headers
     )
-    if not r2.ok:
-        print(f"Publish error: {r2.text}")
+    print(f"Publish status: {r2.status_code} | {r2.text[:300]}")
     r2.raise_for_status()
     return r2.json()["id"]
 
