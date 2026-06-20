@@ -1,0 +1,27 @@
+name: Post to Threads RU
+
+on:
+  schedule:
+    - cron: '0 1-23/2 * * *'  # every 2 hours starting 01:00 UTC (offset from EN)
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install openai requests
+
+      - name: Post to Threads RU
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          THREADS_ACCESS_TOKEN_RU: ${{ secrets.THREADS_ACCESS_TOKEN_RU }}
+          THREADS_USER_ID_RU: ${{ secrets.THREADS_USER_ID_RU }}
+        run: python post_once_ru.py
