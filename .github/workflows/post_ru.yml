@@ -2,7 +2,14 @@ name: Post to Threads RU
 
 on:
   schedule:
-    - cron: '0 7,10,13,16,19,22 * * *'  # 6 posts/day: 7,10,13,16,19,22 UTC
+    - cron: '15 7 * * *'
+    - cron: '45 9 * * *'
+    - cron: '0 12 * * *'
+    - cron: '20 13 * * *'
+    - cron: '50 15 * * *'
+    - cron: '10 18 * * *'
+    - cron: '30 20 * * *'
+    - cron: '0 23 * * *'
   workflow_dispatch:
 
 jobs:
@@ -15,6 +22,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Random delay
+        run: sleep $((RANDOM % 1200))
 
       - name: Install dependencies
         run: pip install openai requests
