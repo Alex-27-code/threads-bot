@@ -2,7 +2,7 @@ name: Post to Threads
 
 on:
   schedule:
-    - cron: '0 */2 * * *'  # every 2 hours = 12 posts/day
+    - cron: '0 7,10,13,16,19,22 * * *'  # 6 posts/day: 7,10,13,16,19,22 UTC
   workflow_dispatch:         # manual run button
   push:
     branches: [main]         # run on every push (fresh code)
