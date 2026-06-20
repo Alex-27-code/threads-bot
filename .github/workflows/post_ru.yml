@@ -2,7 +2,7 @@ name: Post to Threads RU
 
 on:
   schedule:
-    - cron: '0 1-23/2 * * *'  # every 2 hours starting 01:00 UTC (offset from EN)
+    - cron: '0 */2 * * *'  # every 2 hours, same as EN
   workflow_dispatch:
 
 jobs:
